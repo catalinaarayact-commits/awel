@@ -1,26 +1,194 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AWEL DESIGN SYSTEM
+   Tailwind v4 usa @theme inline en lugar de tailwind.config.ts
+   Equivalencia: cada --color-* aquí genera clases bg-*, text-*, border-*
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ── Tipografías ─────────────────────────────────────────────────────── */
+  --font-sans:    var(--font-sans);     /* Montserrat — inyectado por next/font */
+  --font-serif:   var(--font-serif);    /* Cormorant Garamond — inyectado por next/font */
+  --font-mono:    ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
+  --font-heading: var(--font-serif);
+
+  /* ── Colores de marca (uso directo: bg-brand-purple, text-brand-ink, etc.) */
+  --color-brand-purple:      #D98CF4;
+  --color-brand-purple-mid:  #C870EE;
+  --color-brand-purple-soft: #F0D5FC;
+  --color-brand-oat:         #FEF8F0;
+  --color-brand-oat-dark:    #F5EDE0;
+  --color-brand-yuzu:        #DBF48C;
+  --color-brand-yuzu-dark:   #C6E070;
+  --color-brand-blue:        #8CA7F4;
+  --color-brand-blue-soft:   #D6E0FD;
+  --color-brand-ink:         #3D2E52;
+  --color-brand-ink-light:   #7A6B8A;
+
+  /* ── Tokens de Shadcn (mapeados a variables CSS de :root) ─────────────── */
+  --color-background:             var(--background);
+  --color-foreground:             var(--foreground);
+  --color-card:                   var(--card);
+  --color-card-foreground:        var(--card-foreground);
+  --color-popover:                var(--popover);
+  --color-popover-foreground:     var(--popover-foreground);
+  --color-primary:                var(--primary);
+  --color-primary-foreground:     var(--primary-foreground);
+  --color-secondary:              var(--secondary);
+  --color-secondary-foreground:   var(--secondary-foreground);
+  --color-muted:                  var(--muted);
+  --color-muted-foreground:       var(--muted-foreground);
+  --color-accent:                 var(--accent);
+  --color-accent-foreground:      var(--accent-foreground);
+  --color-destructive:            var(--destructive);
+  --color-border:                 var(--border);
+  --color-input:                  var(--input);
+  --color-ring:                   var(--ring);
+  --color-sidebar:                var(--sidebar);
+  --color-sidebar-foreground:     var(--sidebar-foreground);
+  --color-sidebar-primary:        var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:         var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border:         var(--sidebar-border);
+  --color-sidebar-ring:           var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* ── Radio "Soft UI" — 1rem base → todas las variantes escalan desde aquí */
+  --radius-sm:  calc(var(--radius) * 0.5);   /* 0.5rem  — inputs pequeños  */
+  --radius-md:  calc(var(--radius) * 0.75);  /* 0.75rem — botones          */
+  --radius-lg:  var(--radius);               /* 1rem    — cards base       */
+  --radius-xl:  calc(var(--radius) * 1.5);   /* 1.5rem  — modales          */
+  --radius-2xl: calc(var(--radius) * 2);     /* 2rem    — panels grandes   */
+  --radius-3xl: calc(var(--radius) * 2.5);   /* 2.5rem  — mockup frames    */
+  --radius-4xl: calc(var(--radius) * 3);     /* 3rem    — iPhone frame     */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOKENS DE TEMA — Modo claro
+   Usa oklch para mejor interpolación de color que hex/hsl
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Fondo principal: #FEF8F0 Oat Milk (cálido, no blanco puro) */
+  --background:          oklch(0.981 0.008 78);
+  /* Texto: #3D2E52 Ink (púrpura muy oscuro, no negro puro) */
+  --foreground:          oklch(0.248 0.055 295);
+
+  --card:                oklch(1 0 0);
+  --card-foreground:     oklch(0.248 0.055 295);
+  --popover:             oklch(1 0 0);
+  --popover-foreground:  oklch(0.248 0.055 295);
+
+  /* Primary: #D98CF4 Pastel Purple */
+  --primary:             oklch(0.728 0.162 305);
+  --primary-foreground:  oklch(1 0 0);
+
+  --secondary:           oklch(0.96 0.008 78);
+  --secondary-foreground: oklch(0.248 0.055 295);
+
+  --muted:               oklch(0.96 0.008 78);
+  --muted-foreground:    oklch(0.515 0.048 295);
+
+  /* Accent: tono suave de la paleta */
+  --accent:              oklch(0.96 0.01 305);
+  --accent-foreground:   oklch(0.248 0.055 295);
+
+  --destructive:         oklch(0.577 0.245 27.325);
+  --border:              oklch(0.918 0.01 78);
+  --input:               oklch(0.918 0.01 78);
+  --ring:                oklch(0.728 0.162 305);  /* ring en purple */
+
+  /* Radio base — Soft UI */
+  --radius: 1rem;
+
+  --chart-1: oklch(0.728 0.162 305);   /* purple  */
+  --chart-2: oklch(0.715 0.098 255);   /* blue    */
+  --chart-3: oklch(0.912 0.135 122);   /* yuzu    */
+  --chart-4: oklch(0.800 0.110 165);   /* teal    */
+  --chart-5: oklch(0.650 0.140 25);    /* coral   */
+
+  --sidebar:                  oklch(0.974 0.006 78);
+  --sidebar-foreground:       oklch(0.248 0.055 295);
+  --sidebar-primary:          oklch(0.728 0.162 305);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent:           oklch(0.96 0.01 305);
+  --sidebar-accent-foreground: oklch(0.248 0.055 295);
+  --sidebar-border:           oklch(0.918 0.01 78);
+  --sidebar-ring:             oklch(0.728 0.162 305);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODO OSCURO — no es el foco del MVP pero no romper la UI si se activa
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dark {
+  --background:          oklch(0.145 0 0);
+  --foreground:          oklch(0.985 0 0);
+  --card:                oklch(0.205 0 0);
+  --card-foreground:     oklch(0.985 0 0);
+  --popover:             oklch(0.205 0 0);
+  --popover-foreground:  oklch(0.985 0 0);
+  --primary:             oklch(0.782 0.162 305);
+  --primary-foreground:  oklch(0.145 0 0);
+  --secondary:           oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted:               oklch(0.269 0 0);
+  --muted-foreground:    oklch(0.708 0 0);
+  --accent:              oklch(0.269 0 0);
+  --accent-foreground:   oklch(0.985 0 0);
+  --destructive:         oklch(0.704 0.191 22.216);
+  --border:              oklch(1 0 0 / 10%);
+  --input:               oklch(1 0 0 / 15%);
+  --ring:                oklch(0.782 0.162 305);
+  --sidebar:             oklch(0.205 0 0);
+  --sidebar-foreground:  oklch(0.985 0 0);
+  --sidebar-primary:     oklch(0.782 0.162 305);
+  --sidebar-primary-foreground: oklch(0.145 0 0);
+  --sidebar-accent:      oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border:      oklch(1 0 0 / 10%);
+  --sidebar-ring:        oklch(0.782 0.162 305);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    @apply font-sans;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Títulos con Cormorant Garamond — elegancia serif de alto contraste */
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+
+  /* Sub-headings con Montserrat — limpio y geométrico */
+  h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
 }
