@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
+import { enviarEmailRecuperacion } from '@/lib/email'
 
 export type ActionState = {
   error?: string
@@ -131,22 +132,37 @@ export async function recuperarPasswordAction(
   _prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  const email = formData.get('email') as string
+  const email = (formData.get('email') as string)?.trim().toLowerCase()
 
-  if (!email) {
-    return { error: 'El email es requerido.' }
-  }
+  if (!email) return { error: 'El email es requerido.' }
 
-  const supabase = await createClient()
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/auth/callback?next=/nueva-password`,
+  const service = createServiceClient()
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://awel.catalina-araya-ct.workers.dev'
+
+  // Generar enlace de recuperación via admin API (no envía email propio de Supabase)
+  const { data, error } = await service.auth.admin.generateLink({
+    type: 'recovery',
+    email,
+    options: {
+      redirectTo: `${siteUrl}/nueva-password`,
+    },
   })
 
-  if (error) {
-    return { error: 'Error al enviar el email. Intenta de nuevo.' }
+  // Respuesta genérica para no revelar si el email existe
+  if (error || !data?.properties?.action_link) {
+    return { message: 'Si existe una cuenta con ese email, recibirás las instrucciones en breve.' }
   }
 
-  return { message: 'Te enviamos un email con las instrucciones para recuperar tu contraseña.' }
+  try {
+    await enviarEmailRecuperacion({
+      to:     email,
+      enlace: data.properties.action_link,
+    })
+  } catch (err) {
+    console.error('[recuperarPassword] Error enviando email:', err)
+  }
+
+  return { message: 'Si existe una cuenta con ese email, recibirás las instrucciones en breve.' }
 }
 
 // ---------------------------------------------------------------------------

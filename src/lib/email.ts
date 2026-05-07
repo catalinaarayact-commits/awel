@@ -8,7 +8,7 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null
 
-const FROM = process.env.RESEND_FROM ?? 'onboarding@resend.dev'
+const FROM = process.env.RESEND_FROM ?? 'soporte@awel-app.com'
 
 // ─── Tipos públicos ────────────────────────────────────────────────────────────
 
@@ -698,5 +698,68 @@ export async function enviarEmailCampanaClima(datos: DatosEmailCampanaClima): Pr
     to:   datos.to,
     subject: `${subjectEmoji} ${subjectTexto} — ${datos.negocioNombre}`,
     html: envoltura(cuerpo, datos.negocioNombre),
+  })
+}
+
+// ─── Email: Recuperación de contraseña (sistema awel) ─────────────────────────
+
+export interface DatosEmailRecuperacion {
+  to: string
+  enlace: string  // URL generada por Supabase admin.generateLink()
+}
+
+export async function enviarEmailRecuperacion(datos: DatosEmailRecuperacion): Promise<void> {
+  if (!resend) {
+    console.warn('[email] RESEND_API_KEY no configurada — envío omitido')
+    return
+  }
+
+  const cuerpo = `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <tr><td align="center" style="padding:40px 40px 28px;">
+        <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:22px;
+          font-weight:400;color:#3d3d5c;letter-spacing:2px;">awel</p>
+        <p style="margin:4px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;
+          letter-spacing:3px;text-transform:uppercase;color:#9ca3af;">Wellness &amp; Belleza</p>
+      </td></tr>
+    </table>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:0 40px;"><div style="height:1px;background-color:#ede8e0;"></div></td></tr>
+    </table>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:32px 40px 40px;">
+        <h1 style="margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;
+          font-size:26px;font-weight:400;color:#1a1a2e;line-height:1.3;">
+          Recuperar contraseña
+        </h1>
+        <p style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;
+          font-size:14px;color:#6b7280;line-height:1.6;">
+          Recibimos una solicitud para restablecer la contraseña de tu cuenta awel.
+          Haz clic en el botón a continuación para crear una nueva contraseña.
+          El enlace expira en <strong>1 hora</strong>.
+        </p>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+          <tr><td align="center">
+            <a href="${datos.enlace}"
+              style="display:inline-block;padding:14px 36px;background-color:#1a1a2e;
+                border-radius:12px;font-family:Arial,Helvetica,sans-serif;font-size:13px;
+                font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+                color:#ffffff;text-decoration:none;">
+              Restablecer contraseña →
+            </a>
+          </td></tr>
+        </table>
+        <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;
+          color:#9ca3af;line-height:1.6;text-align:center;">
+          Si no solicitaste esto, puedes ignorar este email. Tu contraseña no cambiará.
+        </p>
+      </td></tr>
+    </table>`
+
+  await resend.emails.send({
+    from: FROM,
+    to:   datos.to,
+    subject: 'Recupera tu contraseña — awel',
+    html: envoltura(cuerpo, 'awel'),
   })
 }
