@@ -12,8 +12,9 @@
 
 @theme inline {
   /* ── Tipografías ─────────────────────────────────────────────────────── */
-  --font-sans:    var(--font-sans);     /* Montserrat — inyectado por next/font */
-  --font-serif:   var(--font-serif);    /* Cormorant Garamond — inyectado por next/font */
+  --font-sans:    var(--font-sans);     /* Montserrat — geométrica, UI, SaaS premium */
+  --font-serif:   var(--font-serif);    /* Playfair Display — serif elegante, dashboard */
+  --font-display: var(--font-display);  /* Ombre Nouveau — decorativa, sólo landing */
   --font-mono:    ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
   --font-heading: var(--font-serif);
 
@@ -177,18 +178,16 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Títulos con Cormorant Garamond — elegancia serif de alto contraste */
+  /* Títulos del dashboard con Playfair Display */
   h1, h2, h3 {
     font-family: var(--font-serif);
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: -0.02em;
-    line-height: 1.08;
+    line-height: 1.15;
   }
 
-  /* Sub-headings con Montserrat — limpio y geométrico */
   h4, h5, h6 {
     font-family: var(--font-sans);
     font-weight: 600;
-    letter-spacing: -0.01em;
   }
 }

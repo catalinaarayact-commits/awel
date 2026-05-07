@@ -42,7 +42,7 @@ export function Logo({
       {!markOnly && (
         <span
           className={cn(
-            'font-serif tracking-wide leading-none select-none',
+            'font-serif tracking-tighter leading-none select-none',
             textColors[textVariant]
           )}
           style={{ fontSize: markSize * 0.88 }}

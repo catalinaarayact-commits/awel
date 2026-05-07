@@ -11,16 +11,20 @@ import {
   Users,
   Scissors,
   BarChart2,
+  Clock,
   LogOut,
   Settings,
+  CloudRain,
 } from 'lucide-react'
 
 const navItems = [
-  { label: 'Personalización', href: '/dashboard/personalizacion', icon: Palette,      exact: false },
-  { label: 'Agenda',          href: '/dashboard/agenda',           icon: CalendarDays, exact: false, soon: true },
-  { label: 'Clientes',        href: '/dashboard/clientes',         icon: Users,        exact: false, soon: true },
-  { label: 'Servicios',       href: '/dashboard/servicios',        icon: Scissors,     exact: false, soon: true },
-  { label: 'Estadísticas',    href: '/dashboard/estadisticas',     icon: BarChart2,    exact: false, soon: true },
+  { label: 'Mi Agenda',        href: '/dashboard',                  icon: CalendarDays, exact: true  },
+  { label: 'Servicios',        href: '/dashboard/servicios',        icon: Scissors,     exact: false },
+  { label: 'Horarios',         href: '/dashboard/horarios',         icon: Clock,        exact: false },
+  { label: 'Personalización',  href: '/dashboard/personalizacion',  icon: Palette,      exact: false },
+  { label: 'Clientes',         href: '/dashboard/clientes',         icon: Users,        exact: false },
+  { label: 'Campañas',         href: '/dashboard/campanas',         icon: CloudRain,    exact: false },
+  { label: 'Estadísticas',     href: '/dashboard/estadisticas',     icon: BarChart2,    exact: false, soon: true },
 ]
 
 export function DashboardSidebar() {
