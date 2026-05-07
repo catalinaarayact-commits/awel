@@ -3,7 +3,23 @@
     "allow": [
       "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --yes)",
       "Bash(mv awel/supabase /tmp/awel_supabase_backup)",
-      "Bash(npx create-next-app@latest awel --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --yes)"
+      "Bash(npx create-next-app@latest awel --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npx shadcn@latest add textarea --yes)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000/login)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\" http://localhost:3000/login)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\" http://localhost:3000/superadmin)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\" http://localhost:3000/dashboard/personalizacion)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(git config *)",
+      "Bash(security find-internet-password *)",
+      "Bash(brew list *)",
+      "Bash(npm install *)",
+      "Bash(npx shadcn@latest add calendar --yes)",
+      "Bash(npx tsc *)",
+      "Bash(npx next *)",
+      "Bash(unzip -j /Users/catalina/Downloads/ombre_nouveau.zip OmbreNouveauDEMO-Regular.ttf OmbreNouveauDEMO-Italic.ttf OmbreNouveauDEMO-Light.ttf OmbreNouveauDEMO-LightItalic.ttf OmbreNouveauDEMO-Medium.ttf OmbreNouveauDEMO-MediumItalic.ttf -d /Users/catalina/awel/public/fonts/)",
+      "Bash(curl -s http://localhost:3000/api/cron/recordatorios -H \"Authorization: Bearer awel_cron_dev_secret_2026\")"
     ]
   }
 }
