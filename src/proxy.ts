@@ -1,10 +1,15 @@
-import { type NextRequest } from 'next/server'
-import { updateSession } from '@/lib/supabase/middleware'
+import { type NextRequest, NextResponse } from 'next/server'
 
-export const runtime = 'edge'
-
+/**
+ * Proxy (middleware) — mínimo para Cloudflare Workers.
+ *
+ * Cloudflare Workers no soporta Node.js middleware con lógica compleja.
+ * Los guards de autenticación viven en los layouts de servidor:
+ *   - /dashboard  → src/app/dashboard/layout.tsx
+ *   - /superadmin → src/app/superadmin/layout.tsx
+ */
 export async function proxy(request: NextRequest) {
-  return await updateSession(request)
+  return NextResponse.next()
 }
 
 export const config = {
