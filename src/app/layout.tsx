@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { Montserrat, Playfair_Display, Cormorant } from 'next/font/google'
+import { Montserrat, Playfair_Display, DM_Serif_Display } from 'next/font/google'
 import './globals.css'
 
-// Fuente decorativa de la landing — Cormorant (Google Fonts)
-// Alto contraste, trazos caligráficos — sólo para headlines de marketing
-const cormorant = Cormorant({
+// Fuente decorativa de la landing — DM Serif Display (Google Fonts)
+// Diseñada para titulares grandes, alta elegancia, perfecta para wellness SaaS
+const dmSerifDisplay = DM_Serif_Display({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400'],
   style: ['normal', 'italic'],
   variable: '--font-display',
   display: 'swap',
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="es"
-      className={`${cormorant.variable} ${playfair.variable} ${montserrat.variable} h-full antialiased`}
+      className={`${dmSerifDisplay.variable} ${playfair.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
